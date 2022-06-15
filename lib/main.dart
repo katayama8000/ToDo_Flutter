@@ -30,7 +30,6 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
   Future showConfirmDialog(
     context, {
     required String title,
-    required String content,
     required onApproved,
   }) async {
     showDialog(
@@ -65,14 +64,31 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                           fontWeight: FontWeight.bold,
                         ),
                       )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      content,
-                    ),
-                  ),
                   const SizedBox(
                     height: 24.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0, right: 10, bottom: 20, left: 10),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 251, 70, 130),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 251, 70, 130),
+                          ),
+                        ),
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: '検索',
+                      ),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -116,21 +132,20 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
         onPressed: () {
-          print("add");
+          // print("add");
 
-          setState(() {
-            todos.add("新しいToDo");
-          });
-          // //showConfirmDialog(
-          //   context,
-          //   title: 'ToDoを追加',
-          //   content: '',
-          //   onApproved: () {
-          //     // はい が押された時の処理を入れる。
-          //     // 以下は例
-          //     Navigator.of(context).pop();
-          //   },
-          // );
+          // setState(() {
+          //   todos.add("新しいToDo");
+          // });
+          showConfirmDialog(
+            context,
+            title: 'ToDoを追加',
+            onApproved: () {
+              // はい が押された時の処理を入れる。
+              // 以下は例
+              Navigator.of(context).pop();
+            },
+          );
         },
         child: const Icon(
           Icons.add,
