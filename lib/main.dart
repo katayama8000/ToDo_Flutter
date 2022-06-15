@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() => runApp(const MyApp());
 
@@ -158,6 +159,20 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
       body: Center(
         child: Column(
           children: [
+            ElevatedButton(
+              onPressed: () {
+                Fluttertoast.showToast(
+                  msg: "トースト表示成功！",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 5,
+                  backgroundColor: Colors.red[300],
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              },
+              child: Text('表示'),
+            ),
             Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
