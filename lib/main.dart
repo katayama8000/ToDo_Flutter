@@ -85,8 +85,6 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                             color: Color.fromARGB(255, 251, 70, 130),
                           ),
                         ),
-                        prefixIcon: const Icon(Icons.search),
-                        hintText: '検索',
                       ),
                     ),
                   ),
