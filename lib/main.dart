@@ -23,6 +23,7 @@ class SimpleToDoApp extends StatefulWidget {
 class _SimpleToDoAppState extends State<SimpleToDoApp> {
   List<String> todos = [];
   int todosCount = 10;
+  String title = '';
 
   Future showAddDialog(
     context, {
@@ -127,14 +128,17 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
 
   void addTodo(String text) {
     setState(() {
-      todos.add(text);
-      todosCount = todos.length;
+      if (text != '') {
+        todos.add(text);
+        todosCount = todos.length;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 245, 216, 225),
       appBar: AppBar(
         title: const Text('ToDo_PINK'),
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
@@ -155,13 +159,16 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text('残りのToDo数:$todosCount',
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  todosCount == 0
+                      ? title = 'ToDoを追加してください'
+                      : title = '残りのToDo数:',
                   style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 251, 70, 130))),
-            ),
+                      color: Color.fromARGB(255, 251, 70, 130)),
+                )),
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Expanded(
