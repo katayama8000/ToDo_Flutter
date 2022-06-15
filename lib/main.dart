@@ -21,16 +21,12 @@ class SimpleToDoApp extends StatefulWidget {
 }
 
 class _SimpleToDoAppState extends State<SimpleToDoApp> {
-  List<String> todos = [
-    "買い物",
-    "掃除",
-    "洗濯",
-  ];
+  List<String> todos = [];
+  int todosCount = 10;
 
-  Future showConfirmDialog(
+  Future showAddDialog(
     context, {
     required String title,
-    required onApproved,
   }) async {
     showDialog(
         context: context,
@@ -70,7 +66,12 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 0, right: 10, bottom: 20, left: 10),
-                    child: TextField(
+                    child: TextFormField(
+                      onFieldSubmitted: (text) {
+                        print(text);
+                        addTodo(text);
+                        Navigator.of(context).pop();
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -88,36 +89,25 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shadowColor: Colors.grey,
-                          elevation: 5,
-                          primary: Color.fromARGB(255, 251, 70, 130),
-                          onPrimary: Colors.white,
-                          shape: const StadiumBorder(),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 18),
-                          child: Text('はい'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 24.0,
-                  ),
                 ],
               ),
             ),
           );
         });
+  }
+
+  void removeTodo(int index) {
+    setState(() {
+      todos.removeAt(index);
+      todosCount = todos.length;
+    });
+  }
+
+  void addTodo(String text) {
+    setState(() {
+      todos.add(text);
+      todosCount = todos.length;
+    });
   }
 
   @override
@@ -130,19 +120,9 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
         onPressed: () {
-          // print("add");
-
-          // setState(() {
-          //   todos.add("新しいToDo");
-          // });
-          showConfirmDialog(
+          showAddDialog(
             context,
             title: 'ToDoを追加',
-            onApproved: () {
-              // はい が押された時の処理を入れる。
-              // 以下は例
-              Navigator.of(context).pop();
-            },
           );
         },
         child: const Icon(
@@ -150,31 +130,41 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
         ),
       ),
       body: Center(
-        child: ListView.builder(
-          itemCount: todos.length,
-          itemBuilder: (context, index) {
-            final item = todos[index];
-            return Card(
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                      color: Color.fromARGB(255, 251, 70, 130)),
-                  borderRadius: BorderRadius.circular(20),
+        child: Column(
+          children: [
+            Text('残りのToDo数:$todosCount'),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Expanded(
+                child: SizedBox(
+                  height: 200.0,
+                  child: ListView.builder(
+                    itemCount: todos.length,
+                    itemBuilder: (context, index) {
+                      final item = todos[index];
+                      return Card(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                color: Color.fromARGB(255, 251, 70, 130)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: ListTile(
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Color.fromARGB(255, 251, 70, 130),
+                                ),
+                                onPressed: () {
+                                  removeTodo(index);
+                                },
+                              ),
+                              title: Text(item)));
+                    },
+                  ),
                 ),
-                child: ListTile(
-                    trailing: IconButton(
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Color.fromARGB(255, 251, 70, 130),
-                      ),
-                      onPressed: () {
-                        print("delete");
-                        setState(() {
-                          todos.removeAt(index);
-                        });
-                      },
-                    ),
-                    title: Text(item)));
-          },
+              ),
+            ),
+          ],
         ),
       ),
     );
