@@ -35,64 +35,86 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Container(
-              // デバイスに応じて横幅(width)は調整してください。
-              width: 311.0,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: Color.fromARGB(255, 251, 70, 130), width: 3),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: Column(
-                // mainAxisSize: MainAxisSize.min があることで、
-                // Columnの子要素の縦幅に合わせて表示できます。
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 24.0),
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 24.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 0, right: 10, bottom: 20, left: 10),
-                    child: TextFormField(
-                      onFieldSubmitted: (text) {
-                        print(text);
-                        addTodo(text);
-                        Navigator.of(context).pop();
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 251, 70, 130),
+              child: Container(
+                // デバイスに応じて横幅(width)は調整してください。
+                width: 311.0,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 251, 70, 130), width: 3),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min があることで、
+                  // Columnの子要素の縦幅に合わせて表示できます。
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 251, 70, 130),
+                        )),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 0, right: 10, bottom: 20, left: 10),
+                      child: TextFormField(
+                        onFieldSubmitted: (text) {
+                          print(text);
+                          addTodo(text);
+                          Navigator.of(context).pop();
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 251, 70, 130),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 251, 70, 130),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          );
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.grey,
+                        elevation: 5,
+                        primary: const Color.fromARGB(255, 251, 70, 130),
+                        onPrimary: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                        child: Text('戻る',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                  ],
+                ),
+              ));
         });
   }
 
@@ -132,7 +154,14 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
       body: Center(
         child: Column(
           children: [
-            Text('残りのToDo数:$todosCount'),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('残りのToDo数:$todosCount',
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 251, 70, 130))),
+            ),
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Expanded(
