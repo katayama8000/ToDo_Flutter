@@ -128,10 +128,33 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
   }
 
   void addTodo(String text) {
+    for (int i = 0; i < todos.length; i++) {
+      if (todos[i] == text) {
+        Fluttertoast.showToast(
+          msg: 'すでに登録されています',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color.fromARGB(255, 251, 70, 130),
+          textColor: Color.fromARGB(255, 251, 221, 231),
+          fontSize: 16.0,
+        );
+        return;
+      }
+    }
     setState(() {
       if (text != '') {
         todos.add(text);
         todosCount = todos.length;
+        Fluttertoast.showToast(
+          msg: '登録しました',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color.fromARGB(255, 251, 70, 130),
+          textColor: Color.fromARGB(255, 251, 221, 231),
+          fontSize: 16.0,
+        );
       }
     });
   }
@@ -159,20 +182,6 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Fluttertoast.showToast(
-                  msg: "トースト表示成功！",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 5,
-                  backgroundColor: Colors.red[300],
-                  textColor: Colors.white,
-                  fontSize: 16.0,
-                );
-              },
-              child: Text('表示'),
-            ),
             Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
@@ -188,7 +197,7 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
               padding: const EdgeInsets.all(24.0),
               child: Expanded(
                 child: SizedBox(
-                  height: 200.0,
+                  height: 350.0,
                   child: ListView.builder(
                     itemCount: todos.length,
                     itemBuilder: (context, index) {
