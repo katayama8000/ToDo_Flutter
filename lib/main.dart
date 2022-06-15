@@ -3,8 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
-import 'addnote.dart';
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -31,6 +29,86 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
     "掃除",
     "洗濯",
   ];
+
+  Future showConfirmDialog(
+    context, {
+    required String title,
+    required String content,
+    required onApproved,
+  }) async {
+    showDialog(
+        context: context,
+        // barrierDismissibleのbool値をtrueにすると、
+        // ダイアログの外側を押した際にダイアログが出る前の画面に戻れるようになります。
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Container(
+              // デバイスに応じて横幅(width)は調整してください。
+              width: 311.0,
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Color.fromARGB(255, 251, 70, 130), width: 3),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                // mainAxisSize: MainAxisSize.min があることで、
+                // Columnの子要素の縦幅に合わせて表示できます。
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      content,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shadowColor: Colors.grey,
+                          elevation: 5,
+                          primary: Color.fromARGB(255, 251, 70, 130),
+                          onPrimary: Colors.white,
+                          shape: const StadiumBorder(),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 18),
+                          child: Text('はい'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,9 +119,18 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
         onPressed: () {
-          print("モーダル表示");
+          showConfirmDialog(
+            context,
+            title: 'ToDoを追加',
+            content: '',
+            onApproved: () {
+              // はい が押された時の処理を入れる。
+              // 以下は例
+              Navigator.of(context).pop();
+            },
+          );
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
         ),
       ),
@@ -52,7 +139,6 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
           itemCount: todos.length,
           itemBuilder: (context, index) {
             final item = todos[index];
-
             return Card(
                 shape: RoundedRectangleBorder(
                   side: const BorderSide(
@@ -61,7 +147,7 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                 ),
                 child: ListTile(
                     trailing: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
                         color: Color.fromARGB(255, 251, 70, 130),
                       ),
