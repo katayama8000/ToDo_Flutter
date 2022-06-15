@@ -38,6 +38,15 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
         title: const Text('ToDo_PINK'),
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 251, 70, 130),
+        onPressed: () {
+          print("モーダル表示");
+        },
+        child: Icon(
+          Icons.add,
+        ),
+      ),
       body: Center(
         child: ListView.builder(
           itemCount: todos.length,
@@ -50,7 +59,17 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                       color: Color.fromARGB(255, 251, 70, 130)),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: ListTile(title: Text(item)));
+                child: ListTile(
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Color.fromARGB(255, 251, 70, 130),
+                      ),
+                      onPressed: () {
+                        print("delete");
+                      },
+                    ),
+                    title: Text(item)));
           },
         ),
       ),
