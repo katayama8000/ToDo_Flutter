@@ -1,6 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -119,16 +116,21 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
         onPressed: () {
-          showConfirmDialog(
-            context,
-            title: 'ToDoを追加',
-            content: '',
-            onApproved: () {
-              // はい が押された時の処理を入れる。
-              // 以下は例
-              Navigator.of(context).pop();
-            },
-          );
+          print("add");
+
+          setState(() {
+            todos.add("新しいToDo");
+          });
+          // //showConfirmDialog(
+          //   context,
+          //   title: 'ToDoを追加',
+          //   content: '',
+          //   onApproved: () {
+          //     // はい が押された時の処理を入れる。
+          //     // 以下は例
+          //     Navigator.of(context).pop();
+          //   },
+          // );
         },
         child: const Icon(
           Icons.add,
@@ -153,6 +155,9 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                       ),
                       onPressed: () {
                         print("delete");
+                        setState(() {
+                          todos.removeAt(index);
+                        });
                       },
                     ),
                     title: Text(item)));
