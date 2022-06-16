@@ -7,7 +7,11 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
+enum RadioValue { FIRST, SECOND, THIRD }
+
 class _DashboardState extends State<Dashboard> {
+  RadioValue _gValue = RadioValue.FIRST;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +20,39 @@ class _DashboardState extends State<Dashboard> {
         title: Text("Dashboard"),
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
       ),
-      body: Container(
-        height: double.infinity,
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50.0,
+            ),
+            RadioListTile(
+              title: Text('選択肢 1'),
+              value: RadioValue.FIRST,
+              groupValue: _gValue,
+              onChanged: (value) => _onRadioSelected(value),
+            ),
+            RadioListTile(
+              title: Text('選択肢 2'),
+              value: RadioValue.SECOND,
+              groupValue: _gValue,
+              onChanged: (value) => _onRadioSelected(value),
+            ),
+            RadioListTile(
+              title: Text('選択肢 3'),
+              value: RadioValue.THIRD,
+              groupValue: _gValue,
+              onChanged: (value) => _onRadioSelected(value),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  _onRadioSelected(value) {
+    setState(() {
+      _gValue = value;
+    });
   }
 }

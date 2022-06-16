@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+//components and pages
+import 'components/title.dart';
 import 'pages/dashbord.dart';
 
 void main() => runApp(const MyApp());
@@ -9,7 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: SimpleToDoApp(),
     );
   }
@@ -26,6 +30,7 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
   List<String> todos = [];
   int todosCount = 0;
   String title = '';
+  bool theme = false;
 
   Future showAddDialog(
     context, {
@@ -171,8 +176,10 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
             IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Dashboard()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Dashboard()));
                 })
           ]),
       floatingActionButton: FloatingActionButton(
@@ -191,45 +198,38 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
         child: Column(
           children: [
             Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CompTitle(todosCount: todosCount),
+            ),
+            Flexible(
+              child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  todosCount == 0
-                      ? title = 'ToDoを追加してください'
-                      : title = '残りのToDo数:$todosCount',
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 251, 70, 130)),
-                )),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Expanded(
-                child: SizedBox(
-                  height: 350.0,
-                  child: ListView.builder(
-                    itemCount: todos.length,
-                    itemBuilder: (context, index) {
-                      final item = todos[index];
-                      return Card(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                color: Color.fromARGB(255, 251, 70, 130)),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: ListTile(
-                              trailing: IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Color.fromARGB(255, 251, 70, 130),
-                                ),
-                                onPressed: () {
-                                  removeTodo(index);
-                                },
+                //-------------------------------------------
+                child: ListView.builder(
+                  //nestのエラー回避
+                  itemCount: todos.length,
+                  itemBuilder: (context, index) {
+                    final item = todos[index];
+                    return Card(
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              color: Color.fromARGB(255, 251, 70, 130)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: ListTile(
+                            trailing: IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Color.fromARGB(255, 251, 70, 130),
                               ),
-                              title: Text(item)));
-                    },
-                  ),
+                              onPressed: () {
+                                removeTodo(index);
+                              },
+                            ),
+                            title: Text(item)));
+                  },
                 ),
+                //-------------------------------------------
               ),
             ),
           ],
