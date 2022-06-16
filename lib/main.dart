@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'pages/dashbord.dart';
 
 void main() => runApp(const MyApp());
 
@@ -23,7 +24,7 @@ class SimpleToDoApp extends StatefulWidget {
 
 class _SimpleToDoAppState extends State<SimpleToDoApp> {
   List<String> todos = [];
-  int todosCount = 10;
+  int todosCount = 0;
   String title = '';
 
   Future showAddDialog(
@@ -164,9 +165,16 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 216, 225),
       appBar: AppBar(
-        title: const Text('ToDo_PINK'),
-        backgroundColor: const Color.fromARGB(255, 251, 70, 130),
-      ),
+          title: const Text('ToDo_PINK'),
+          backgroundColor: const Color.fromARGB(255, 251, 70, 130),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Dashboard()));
+                })
+          ]),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 251, 70, 130),
         onPressed: () {
@@ -187,7 +195,7 @@ class _SimpleToDoAppState extends State<SimpleToDoApp> {
                 child: Text(
                   todosCount == 0
                       ? title = 'ToDoを追加してください'
-                      : title = '残りのToDo数:',
+                      : title = '残りのToDo数:$todosCount',
                   style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
